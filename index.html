@@ -56,15 +56,21 @@
   <button onclick="analyzeImage()">Analysieren</button>
 
   <div id="response" class="response"></div>
+
   <script>
     async function analyzeImage() {
       const fileInput = document.getElementById("imageUpload");
-      const question = document.getElementById("question").value;
+      let question = document.getElementById("question").value.trim();
       const responseDiv = document.getElementById("response");
 
       if (!fileInput.files[0]) {
         alert("Bitte ein Bild auswählen.");
         return;
+      }
+
+      // 🔹 Wenn das Frage-Feld leer ist, Standardfrage setzen
+      if (question === "") {
+        question = "ist essen auf dem bild zu sehen?";
       }
 
       responseDiv.textContent = "Analyse läuft …";
@@ -84,25 +90,26 @@
       reader.readAsDataURL(fileInput.files[0]);
     }
     
-async function callNemotron(base64Image, question) {
-  const res = await fetch("https://nemotron-backend.onrender.com/api/analyze", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      image: base64Image,
-      question: question
-    })
-  });
+    async function callNemotron(base64Image, question) {
+      const res = await fetch("https://nemotron-backend.onrender.com/api/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          image: base64Image,
+          question: question
+        })
+      });
 
-  if (!res.ok) {
-    throw new Error("Backend-Fehler");
-  }
+      if (!res.ok) {
+        throw new Error("Backend-Fehler");
+      }
 
-  const data = await res.json();
-  return data.answer || "Keine Antwort erhalten.";
-}   
+      const data = await res.json();
+      return data.answer || "Keine Antwort erhalten.";
+    }   
   </script>
 </body>
 </html>
+
 
 
