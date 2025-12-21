@@ -51,7 +51,7 @@
   <input type="file" id="imageUpload" accept="image/*">
 
   <label>Frage zum Bild:</label>
-  <textarea id="question" rows="4" placeholder="Was ist auf dem Bild zu sehen? Antworte auf deutsch mit ja oner nein."></textarea>
+  <textarea id="question" rows="4" placeholder="Was ist auf dem Bild zu sehen?"></textarea>
 
   <button onclick="analyzeImage()">Analysieren</button>
 
@@ -70,7 +70,7 @@
 
       // 🔹 Wenn das Frage-Feld leer ist, Standardfrage setzen
       if (question === "") {
-        question = "ist essen auf dem bild zu sehen?";
+        question = "Überprüfe ob Essen auf dem Bild zu sehen ist. wenn Essen zu sehen ist sag mit was für Essen zu sehen ist und nenne mit die ungefähren Nährwerte des Essens insgesamt. Wenn kein Essen auf dem Bild zu sehen ist sag mir was dann zu sehen ist. Wenn es ein gegenstand ist den man online kaufen kann nenne mir einen Preis.";
       }
 
       responseDiv.textContent = "Analyse läuft …";
@@ -110,6 +110,7 @@
   </script>
 </body>
 </html>
+
 
 
 
