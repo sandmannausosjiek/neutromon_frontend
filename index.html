@@ -12,7 +12,7 @@
       background-color: #121212;
       color: #f0f0f0;
     }
-    textarea, input[type=file], .question-options {
+    textarea, input[type=file], input[type=text], .question-options {
       width: 100%;
       padding: 0.75rem;
       margin-top: 0.75rem;
@@ -57,16 +57,34 @@
 
   <label>Frage zum Bild:</label>
   <div class="question-options">
-    <label><input type="radio" name="questionChoice" value="q1" checked> Erste Standardfrage: "ist essen auf dem bild zu sehen?"</label>
-    <label><input type="radio" name="questionChoice" value="q2"> Zweite Standardfrage: "wie viele personen sind auf dem bild?"</label>
+    <label><input type="radio" name="questionChoice" value="q1" checked> Essen "</label>
+    <label><input type="radio" name="questionChoice" value="q2"> Produkt"</label>
     <label><input type="radio" name="questionChoice" value="custom"> Eigene Frage eingeben</label>
   </div>
+
+  <!-- Textfeld für eigene Frage (wird nur angezeigt, wenn "Eigene Frage" ausgewählt ist) -->
+  <input type="text" id="customQuestion" placeholder="Deine eigene Frage..." style="display:none;">
 
   <button onclick="analyzeImage()">Analysieren</button>
 
   <div id="response" class="response"></div>
 
   <script>
+    // Radio-Buttons überwachen, um das Textfeld ein-/auszublenden
+    const radioButtons = document.querySelectorAll('input[name="questionChoice"]');
+    const customQuestionInput = document.getElementById("customQuestion");
+
+    radioButtons.forEach(rb => {
+      rb.addEventListener("change", () => {
+        if (rb.value === "custom" && rb.checked) {
+          customQuestionInput.style.display = "block";
+          customQuestionInput.focus();
+        } else {
+          customQuestionInput.style.display = "none";
+        }
+      });
+    });
+
     async function analyzeImage() {
       const fileInput = document.getElementById("imageUpload");
       const responseDiv = document.getElementById("response");
@@ -81,13 +99,13 @@
       let question = "";
 
       if (questionChoice === "q1") {
-        question = "ist essen auf dem bild zu sehen?";
+        question = " Beantworte diese Frage mit einem Satz: Was für essen ist auf dem Bild zu sehen? Nenne mir die Nährwerte des Essens in Stichpunkten.";
       } else if (questionChoice === "q2") {
-        question = "wie viele personen sind auf dem bild?";
+        question = "Was für Produkte sind auf dem Bild und wie viel kosten Sie?";
       } else if (questionChoice === "custom") {
-        question = prompt("Bitte eigene Frage eingeben:", "");
-        if (!question) {
-          question = "ist essen auf dem bild zu sehen?"; // Fallback
+        question = customQuestionInput.value.trim();
+        if (question === "") {
+          question = "Was ist auf dem Bild zu sehen"; // Fallback, falls Feld leer
         }
       }
 
@@ -128,6 +146,8 @@
   </script>
 </body>
 </html>
+
+
 
 
 
