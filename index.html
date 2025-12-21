@@ -12,7 +12,7 @@
       background-color: #121212;
       color: #f0f0f0;
     }
-    textarea, input[type=file] {
+    textarea, input[type=file], .question-options {
       width: 100%;
       padding: 0.75rem;
       margin-top: 0.75rem;
@@ -41,6 +41,11 @@
       min-height: 100px;
       white-space: pre-wrap;
     }
+    .question-options label {
+      display: block;
+      margin-top: 0.5rem;
+      cursor: pointer;
+    }
   </style>
 </head>
 
@@ -51,7 +56,11 @@
   <input type="file" id="imageUpload" accept="image/*">
 
   <label>Frage zum Bild:</label>
-  <textarea id="question" rows="4" placeholder="Was ist auf dem Bild zu sehen?"></textarea>
+  <div class="question-options">
+    <label><input type="radio" name="questionChoice" value="q1" checked> Erste Standardfrage: "ist essen auf dem bild zu sehen?"</label>
+    <label><input type="radio" name="questionChoice" value="q2"> Zweite Standardfrage: "wie viele personen sind auf dem bild?"</label>
+    <label><input type="radio" name="questionChoice" value="custom"> Eigene Frage eingeben</label>
+  </div>
 
   <button onclick="analyzeImage()">Analysieren</button>
 
@@ -60,7 +69,6 @@
   <script>
     async function analyzeImage() {
       const fileInput = document.getElementById("imageUpload");
-      let question = document.getElementById("question").value.trim();
       const responseDiv = document.getElementById("response");
 
       if (!fileInput.files[0]) {
@@ -68,9 +76,19 @@
         return;
       }
 
-      // 🔹 Wenn das Frage-Feld leer ist, Standardfrage setzen
-      if (question === "") {
-        question = "wenn Essen zu sehen ist sag mit was für Essen zu sehen ist und nenne mit die ungefähren Nährwerte des Essens insgesamt. Wenn kein Essen auf dem Bild zu sehen ist sag mir was dann zu sehen ist. Wenn es ein gegenstand ist den man online kaufen kann nenne mir einen Preis. gehe nicht auf die fragen ein die wenn die bedignung am anfang nicht erfüllt ist (zB. Essen oder Gegenstand). ignoriere den teil dann einfach. kein es ist kein essen zu sehen oder so in der antwort";
+      // 🔹 Frage basierend auf Auswahl bestimmen
+      let questionChoice = document.querySelector('input[name="questionChoice"]:checked').value;
+      let question = "";
+
+      if (questionChoice === "q1") {
+        question = "ist essen auf dem bild zu sehen?";
+      } else if (questionChoice === "q2") {
+        question = "wie viele personen sind auf dem bild?";
+      } else if (questionChoice === "custom") {
+        question = prompt("Bitte eigene Frage eingeben:", "");
+        if (!question) {
+          question = "ist essen auf dem bild zu sehen?"; // Fallback
+        }
       }
 
       responseDiv.textContent = "Analyse läuft …";
@@ -106,10 +124,11 @@
 
       const data = await res.json();
       return data.answer || "Keine Antwort erhalten.";
-    }   
+    }
   </script>
 </body>
 </html>
+
 
 
 
