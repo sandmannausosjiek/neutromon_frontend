@@ -99,9 +99,9 @@
       let question = "";
 
       if (questionChoice === "q1") {
-        question = "deine Antwort soll folgendermaßen aussehen und in keinster weise von den Vorgaben abweichen. In der ersten Zeile das Essen bennenen, nicht in einem Satz, sondern nur den Namen des Essens nennen. In den folgenden Zeilen sollen die Nährwerte des gesamten essens aufaddiert in einer Handelsüblichen Nährwertetabelle angezeigt werden. Die Anwort keine zusätzlichen Informationen oder Wörter enthalten!";
+        question = "deine Antwort soll folgendermaßen aussehen und in keinster weise von den Vorgaben abweichen. In der ersten Zeile das Essen bennenen, nicht in einem Satz, sondern nur den Namen des Essens nennen. In den folgenden Zeilen sollen die Nährwerte des gesamten essens aufaddiert, nur als Summe, in einer Handelsüblichen Nährwertetabelle angezeigt werden. Der Brennwert dabei in kcal. Die Anwort keine zusätzlichen Informationen oder Wörter enthalten!";
       } else if (questionChoice === "q2") {
-        question = "Zähle auf was für Produkte auf dem Bild zu sehen sind und wie viel sie kosten. Beide Teile der Antwort dürfen jeweils nicht mehr als eine Zeile betragen. Damit kann die Antwort insgesamt nicht mehr als eine Zeile Betragen.";
+        question = "Zähle auf was für Produkte auf dem Bild zu sehen sind und wie viel sie kosten. Der Preis soll geschätzt oder recherchiert werden. Beide Teile der Antwort dürfen jeweils nicht mehr als eine Zeile betragen. Damit kann die Antwort insgesamt nicht mehr als zwei Zeilen Betragen.";
       } else if (questionChoice === "custom") {
         question = customQuestionInput.value.trim();
         if (question === "") {
@@ -146,6 +146,7 @@
   </script>
 </body>
 </html>
+
 
 
 
